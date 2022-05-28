@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "generates typesafe locale keys for next-translate package with auto completion and vsc comments support",
   "main": "./dist/controller.js",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc -p ./tsconfig.json",
