@@ -4,7 +4,7 @@
   "description": "generates typesafe locale keys for next-translate package with auto completion and vsc comments support",
   "main": "./dist/controller.js",
   "repository": {
-    "url": "https://github.com/saschahapp/next-translate-localekeys-generator"
+    "url": "git://github.com/saschahapp/next-translate-localekeys-generator.git"
   },
   "publishConfig": {
     "registry":"https://npm.pkg.github.com"
