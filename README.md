@@ -42,7 +42,7 @@ To get all configurations possible:
 | `rootDir` | where the locale translation json files are located. | `string` | - |  *
 | `outDir` | where the generated output should be placed in. | `string` | - | *
 | `errDir` | where the error file should be placed in. | `string` | `outDir` | 
-| `typescriptEnabled` | enables typescript with type safety and readonly modifier. | `boolean` | - | 
-| `translationsEnabled` | enables translation comments. | `boolean` | - |
+| `typescriptEnabled` | enables typescript with type safety and readonly modifier. | `boolean` | `false` | 
+| `translationsEnabled` | enables translation comments. | `boolean` | `false` |
 | `nsSeparator` | char to split namespace from key. | `string` | `":"` |
 | `keySeparator` | change the separator that is used for nested keys. | `string` | `"."` |
