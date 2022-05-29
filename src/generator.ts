@@ -28,19 +28,9 @@ export type Entry = {
 export type Maybe<Result> = Result | null | undefined | void;
 
 /**
- * @summary used for define supported file extensions, only readable
- */
-export type SupportedExtentions = ReadonlyArray<string>;
-
-/**
  * @summary holds entries (string types)
  */
 export type Collection = Array<string>;
-
-/**
- * @summary holds key string values
- */
-export type Document = { [key: string]: string };
 
 /**
  * @summary  holds readonly key string values
@@ -179,75 +169,12 @@ export abstract class Generator<ARGS extends BaseARGS = BaseARGS> {
   }
 
   /**
-   * @summary makes the first letter lowercase
-   * @param value
-   * @returns string
-   */
-  protected toFirstLetterLowerCase(value: string): string {
-    return value.replace(/./, (letter) => letter.toLowerCase());
-  }
-
-  /**
-   * @summary makes the first letter uppercase
-   * @param value
-   * @returns string
-   */
-  protected toFirstLetterUpperCase(value: string): string {
-    return value.replace(/./, (letter) => letter.toUpperCase());
-  }
-
-  /**
    * @summary specific for windows, path: user\user => user/user
    * @param value
    * @returns string
    */
   protected swapBackslashToSlash(value: string): string {
     return value.replace(/\\/g, "/");
-  }
-
-  /**
-   * @summary removes the src prefix, which is determined from the passed arguments
-   * @param path
-   * @returns string
-   */
-  protected removeSrcDirectoryPrefix(path: string): string {
-    return this.removeDirectoryPrefix(path, this.args.src);
-  }
-
-  /**
-   * @summary removes the given prefix of the given value
-   * @param path
-   * @param prefix
-   * @returns string
-   */
-  protected removeDirectoryPrefix(path: string, prefix: string): string {
-    return this.swapBackslashToSlash(path).replace(
-      new RegExp(`^${this.swapBackslashToSlash(prefix)}(/?)`),
-      ""
-    );
-  }
-
-  /**
-   * @summary adds slash at the beginning
-   * @param value
-   * @returns string
-   */
-  protected addSlashAtBeginning(value: string): string {
-    return "/" + value;
-  }
-
-  /**
-   * @summary takes a valid source code and compresses it that it fits into one line
-   * @param sourceCode
-   * @returns string
-   */
-  protected compressSourceCodeToOneLine(sourceCode: string): string {
-    return sourceCode.replace(/.*\s+.*/gm, (gap) => {
-      if (gap.match(/^[a-zA-Z].*[a-zA-Z]$/)) {
-        return gap.replace(/\s+/g, " ");
-      }
-      return gap.replace(/\s+/g, "");
-    });
   }
 
   /**
@@ -271,16 +198,6 @@ export abstract class Generator<ARGS extends BaseARGS = BaseARGS> {
    */
   protected getGeneratedFileName(file: string): string {
     return `${file}.g.${this.args.typescriptEnabled ? "ts" : "js"}`;
-  }
-
-  /**
-   * @summary helper function, which serves in this case as an assembly line with different stops (workstations)
-   * @summary each workstation will be called with this (Generator) binded
-   * @param workstations
-   * @returns Workstation
-   */
-  protected assemblyLine(...workstations: Workstations): Workstation {
-    return workstations.reduce((f, g) => (value) => g.call(this, f.call(this, value)));
   }
 
   /**

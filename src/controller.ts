@@ -61,7 +61,7 @@ class Controller {
     return program
       .requiredOption("--rootDir <string>", "where the locale translation json files are located")
       .requiredOption("--outDir <string>", "where the generated output should placed in")
-      .option("--outDir <string>", "where the error file should be placed in. Default: outDir.")
+      .option("--errDir <string>", "where the error file should be placed in. Default: outDir.")
       .option("--nsSeparator <string>", "char to split namespace from key.", ":")
       .option("--keySeparator <string>", "change the separator that is used for nested keys.", ".")
       .option("--typescriptEnabled", "enables typescript with type safety and readonly modifier.")
