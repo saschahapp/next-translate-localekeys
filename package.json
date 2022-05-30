@@ -8,7 +8,7 @@
     "url": "git://github.com/saschahapp/next-translate-localekeys-generator.git"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.36",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "typescript": "^4.7.2"
   },
   "bin": {
     "next-translate-localekeys-generate": "./dist/controller.js"
