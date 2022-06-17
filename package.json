@@ -1,11 +1,11 @@
 {
-  "name": "@saschahapp/next-translate-localekeys-generator",
-  "version": "1.0.0",
+  "name": "@saschahapp/next-translate-localekeys",
+  "version": "1.1.0",
   "description": "generates typesafe locale keys for next-translate package with auto completion and vsc comments support",
-  "main": "./dist/controller.js",
+  "main": "./dist/base/controller.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/saschahapp/next-translate-localekeys-generator.git"
+    "url": "git://github.com/saschahapp/next-translate-localekeys.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -13,10 +13,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc -p ./tsconfig.json",
-    "generate:example:one": "node . next-translate-localekeys-generate --rootDir ./examples/locales/en --outDir ./examples/generated",
-    "generate:example:two": "node . next-translate-localekeys-generate --rootDir ./examples/locales/en --outDir ./examples/generated --translationsEnabled",
-    "generate:example:three": "node . next-translate-localekeys-generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescriptEnabled",
-    "generate:example:four": "node . next-translate-localekeys-generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescriptEnabled --translationsEnabled"
+    "generate:example:one": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated",
+    "generate:example:two": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --translations",
+    "generate:example:three": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript",
+    "generate:example:four": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript --translations",
+    "compile:example:one": "node ./dist/base/controller.js compile --rootDir ./examples/compiled/after",
+    "compile:example:two": "node ./dist/base/controller.js compile --rootDir ./examples/compiled/after --typescript"
   },
   "keywords": [],
   "author": "Sascha Happ",
@@ -27,10 +29,11 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.36",
+    "next-translate": "^1.4.0",
     "prettier": "^2.6.2",
     "typescript": "^4.7.2"
   },
   "bin": {
-    "next-translate-localekeys-generate": "./dist/controller.js"
+    "next-translate-localekeys": "./dist/base/controller.js"
   }
 }

@@ -1,13 +1,7 @@
-import { BaseARGS, Entry, Generator, Maybe, NestedDoc, PendingJob } from "./generator";
-
-/**
- * @summary args which can or should be received in ordner to perform the desired output
- */
-type ARGS = BaseARGS & {
-  readonly nsSeparator: string;
-  readonly keySeparator: string;
-  readonly translationsEnabled: boolean;
-};
+import { Maybe } from "../base/util";
+import { ARGS } from "../base/controller";
+import { Generator } from "../base/generator";
+import { Entry, NestedDoc, PendingJob } from "../base/filesystem";
 
 /**
  * @summary array of descendants which can not be modified
@@ -35,7 +29,7 @@ type Original = {
 /**
  * @summary class which provides the functionality for the generation
  */
-export class LocaleKeysGenerator extends Generator<ARGS> {
+export class LocaleKeysGenerator extends Generator {
   /**
    * @summary name of the class
    */
@@ -67,7 +61,7 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    */
   public async generate(): PendingJob {
     try {
-      await this.processLocaleDirectory(this.args.src);
+      await this.processLocaleDirectory(this.args.rootDir);
       await this.writeToGeneratedFile(this.getLocaleKeysContent());
     } catch (error) {
       await this.logError(error);
@@ -79,16 +73,12 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getLocaleKeysContent(): string {
-    if (this.args.typescriptEnabled) {
-      return this.merge(
-        this.getHeader,
-        this.getLocaleKeysTypeDeclaration,
-        this.getLocaleKeysObject,
-        this.getFooter
-      );
-    }
-
-    return this.merge(this.getHeader, this.getLocaleKeysObject, this.getFooter);
+    return (
+      this.getHeader() +
+      (this.args.typescript ? this.getLocaleKeysTypeDeclaration() : "") +
+      this.getLocaleKeysObject() +
+      this.getFooter()
+    );
   }
 
   /**
@@ -99,12 +89,10 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
     let content = ":{";
 
     for (const { name, descendants } of this.originals) {
-      content += this.args.translationsEnabled
+      content += this.args.translations
         ? this.getTemplate("parentTypeDeclarationWithTranslations", {
             name: this.getValidLocaleKeyName(name),
-            translations: this.getLocaleKeyTranslationLayout(
-              this.getLocaleKeyTranslations(descendants!)
-            ),
+            translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
             descendantTypeDeclaration: this.getLocaleKeyDescendantsTypeDeclaration(descendants!),
           })
         : this.getTemplate("parentTypeDeclaration", {
@@ -125,13 +113,11 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
 
     for (const { name, descendants } of this.originals) {
       content +=
-        !this.args.typescriptEnabled && this.args.translationsEnabled
+        !this.args.typescript && this.args.translations
           ? this.getTemplate("translationObjectWithTranslations", {
               value: name,
               key: this.getValidLocaleKeyName(name),
-              translations: this.getLocaleKeyTranslationLayout(
-                this.getLocaleKeyTranslations(descendants!)
-              ),
+              translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
               descendants: this.getLocaleKeyDescendantsTemplate(descendants),
             })
           : this.getTemplate("translationObject", {
@@ -150,7 +136,7 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns PendingJob
    */
   private processLocaleDirectory(dir: string): PendingJob {
-    return this.processDirectory(this.processLocaleEntry, dir);
+    return this.fs.processDirectory(this.processLocaleEntry.bind(this), dir);
   }
 
   /**
@@ -174,7 +160,7 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns PendingJob
    */
   private async processTranslationFile(fileName: string, fromPath: string): PendingJob {
-    const doc = await this.readJSONFile(fromPath);
+    const doc = await this.fs.readJSONFile(fromPath);
 
     this.originals.push({
       name: fileName,
@@ -188,11 +174,11 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getLocaleKeyChildTemplate({ name, ancestorChain, translation }: Descendant): string {
-    return !this.args.typescriptEnabled && this.args.translationsEnabled
+    return !this.args.typescript && this.args.translations
       ? this.getTemplate("keyStringValueWithTranslation", {
           key: this.getValidLocaleKeyName(name),
           value: ancestorChain + name,
-          translation: translation ?? "",
+          translation: translation!,
         })
       : this.getTemplate("keyStringValue", {
           key: this.getValidLocaleKeyName(name),
@@ -206,10 +192,10 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getLocaleKeyChildTypeDeclaration({ name, translation }: Descendant): string {
-    return this.args.translationsEnabled
+    return this.args.translations
       ? this.getTemplate("childTypeDelarationWithTranslation", {
           name: this.getValidLocaleKeyName(name),
-          translation: translation ?? "",
+          translation: translation!,
         })
       : this.getTemplate("childTypeDelaration", {
           name: this.getValidLocaleKeyName(name),
@@ -222,13 +208,11 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getLocaleKeyParentTemplate({ name, ancestorChain, descendants }: Descendant): string {
-    return !this.args.typescriptEnabled && this.args.translationsEnabled
+    return !this.args.typescript && this.args.translations
       ? this.getTemplate("translationObjectWithTranslations", {
           key: this.getValidLocaleKeyName(name),
           value: ancestorChain + name,
-          translations: this.getLocaleKeyTranslationLayout(
-            this.getLocaleKeyTranslations(descendants!)
-          ),
+          translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
           descendants: this.getLocaleKeyDescendantsTemplate(descendants!),
         })
       : this.getTemplate("translationObject", {
@@ -244,12 +228,10 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getLocaleKeyParentTypeDeclaration({ name, descendants }: Descendant): string {
-    return this.args.translationsEnabled
+    return this.args.translations
       ? this.getTemplate("parentTypeDeclarationWithTranslations", {
           name: this.getValidLocaleKeyName(name),
-          translations: this.getLocaleKeyTranslationLayout(
-            this.getLocaleKeyTranslations(descendants!)
-          ),
+          translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
           descendantTypeDeclaration: this.getLocaleKeyDescendantsTypeDeclaration(descendants!),
         })
       : this.getTemplate("parentTypeDeclaration", {
@@ -290,7 +272,7 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
    * @returns string
    */
   private getValidLocaleKeyName(name: string): string {
-    return this.swapHyphenToUnderscore(name);
+    return this.util.swapHyphenToUnderscore(name);
   }
 
   /**
@@ -342,8 +324,8 @@ export class LocaleKeysGenerator extends Generator<ARGS> {
       descendants.push({
         name: key,
         ancestorChain,
-        translation: this.isString(entry) ? entry : null,
-        descendants: this.isObject(entry)
+        translation: this.util.isString(entry) ? entry : null,
+        descendants: this.util.isObject(entry)
           ? this.generateLocaleKeyDescendants(entry, ancestorChain + key + this.args.keySeparator)
           : null,
       });

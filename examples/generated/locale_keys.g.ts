@@ -31,24 +31,6 @@ export const LocaleKeys:{
 
 /**
 * Translations: 
-** description: "This text is wrote in English from the homepage dictionary"
-** more_examples: "More examples"
-*/readonly home:string;
-
-/**
-* Translations: 
-** description: "This text is wrote in English from the homepage dictionary"
-** more_examples: "More examples"
-*/readonly _home:{ 
-/**
-* @example "This text is wrote in English from the homepage dictionary"
-*/readonly description:string;
-/**
-* @example "More examples"
-*/readonly more_examples:string; }
-
-/**
-* Translations: 
 ** example-with-variable: "This is an example with variable {{count}}"
 ** plural-example: "This is singular because the value is {{count}}"
 ** plural-example_0: "Is zero because the value is {{count}}"
@@ -128,5 +110,23 @@ export const LocaleKeys:{
 */readonly _very_nested:{ 
 /**
 * @example "Nested example!"
-*/readonly nested:string; } } }}={common:"common",_common:{ title:"common:title", },dynamic:"dynamic",_dynamic:{ example_of_dynamic_translation:"dynamic:example-of-dynamic-translation", },home:"home",_home:{ description:"home:description",more_examples:"home:more_examples", },more_examples:"more-examples",_more_examples:{ example_with_variable:"more-examples:example-with-variable",plural_example:"more-examples:plural-example",plural_example_0:"more-examples:plural-example_0",plural_example_2:"more-examples:plural-example_2",plural_example_other:"more-examples:plural-example_other",example_with_html:"more-examples:example-with-html",no_functional_example:"more-examples:no-functional-example",dynamic_namespaces_link:"more-examples:dynamic-namespaces-link",dynamic_route:"more-examples:dynamic_route",go_to_home:"more-examples:go-to-home",nested_example:"more-examples:nested-example",_nested_example:{ very_nested:"more-examples:nested-example.very-nested",_very_nested:{ nested:"more-examples:nested-example.very-nested.nested", }, }, },};
+*/readonly nested:string; } } }
+
+/**
+* Translations: 
+** description: "This text is wrote in English from the homepage dictionary"
+** more_examples: "More examples"
+*/readonly home:string;
+
+/**
+* Translations: 
+** description: "This text is wrote in English from the homepage dictionary"
+** more_examples: "More examples"
+*/readonly _home:{ 
+/**
+* @example "This text is wrote in English from the homepage dictionary"
+*/readonly description:string;
+/**
+* @example "More examples"
+*/readonly more_examples:string; }}={common:"common",_common:{ title:"common:title", },dynamic:"dynamic",_dynamic:{ example_of_dynamic_translation:"dynamic:example-of-dynamic-translation", },more_examples:"more-examples",_more_examples:{ example_with_variable:"more-examples:example-with-variable",plural_example:"more-examples:plural-example",plural_example_0:"more-examples:plural-example_0",plural_example_2:"more-examples:plural-example_2",plural_example_other:"more-examples:plural-example_other",example_with_html:"more-examples:example-with-html",no_functional_example:"more-examples:no-functional-example",dynamic_namespaces_link:"more-examples:dynamic-namespaces-link",dynamic_route:"more-examples:dynamic_route",go_to_home:"more-examples:go-to-home",nested_example:"more-examples:nested-example",_nested_example:{ very_nested:"more-examples:nested-example.very-nested",_very_nested:{ nested:"more-examples:nested-example.very-nested.nested", }, }, },home:"home",_home:{ description:"home:description",more_examples:"home:more_examples", },};
 // Developed by Sascha Happ.
