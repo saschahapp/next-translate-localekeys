@@ -14,7 +14,25 @@ export const LocaleKeys={
 */_common:{ 
   /**
  * @example "next-translate library"
- */title:"common::title", },
+ */title:"common:title", },
+
+/**
+* Translations: 
+** description: "This text is wrote in English from the homepage dictionary"
+** more_examples: "More examples"
+*/home:"home",
+
+/**
+* Translations: 
+** description: "This text is wrote in English from the homepage dictionary"
+** more_examples: "More examples"
+*/_home:{ 
+  /**
+ * @example "This text is wrote in English from the homepage dictionary"
+ */description:"home:description",
+  /**
+ * @example "More examples"
+ */more_examples:"home:more_examples", },
 
 /**
 * Translations: 
@@ -27,7 +45,7 @@ export const LocaleKeys={
 */_dynamic:{ 
   /**
  * @example "I'm a dynamic loaded content"
- */example_of_dynamic_translation:"dynamic::example-of-dynamic-translation", },
+ */example_of_dynamic_translation:"dynamic:example-of-dynamic-translation", },
 
 /**
 * Translations: 
@@ -60,39 +78,39 @@ export const LocaleKeys={
 */_more_examples:{ 
   /**
  * @example "This is an example with variable {{count}}"
- */example_with_variable:"more-examples::example-with-variable",
+ */example_with_variable:"more-examples:example-with-variable",
   /**
  * @example "This is singular because the value is {{count}}"
- */plural_example:"more-examples::plural-example",
+ */plural_example:"more-examples:plural-example",
   /**
  * @example "Is zero because the value is {{count}}"
- */plural_example_0:"more-examples::plural-example_0",
+ */plural_example_0:"more-examples:plural-example_0",
   /**
  * @example "Is two because the value is {{count}}"
- */plural_example_2:"more-examples::plural-example_2",
+ */plural_example_2:"more-examples:plural-example_2",
   /**
  * @example "Is in plural because the value is {{count}}"
- */plural_example_other:"more-examples::plural-example_other",
+ */plural_example_other:"more-examples:plural-example_other",
   /**
  * @example "<0>This is an example <1>using HTML</1> inside the translation</0>"
- */example_with_html:"more-examples::example-with-html",
+ */example_with_html:"more-examples:example-with-html",
   /**
  * @example "Translation done from a no-functional component"
- */no_functional_example:"more-examples::no-functional-example",
+ */no_functional_example:"more-examples:no-functional-example",
   /**
  * @example "See an example of dynamic namespace"
- */dynamic_namespaces_link:"more-examples::dynamic-namespaces-link",
+ */dynamic_namespaces_link:"more-examples:dynamic-namespaces-link",
   /**
  * @example "Dynamic route"
- */dynamic_route:"more-examples::dynamic_route",
+ */dynamic_route:"more-examples:dynamic_route",
   /**
  * @example "Go to the homepage"
- */go_to_home:"more-examples::go-to-home",
+ */go_to_home:"more-examples:go-to-home",
 
 /**
 * Translations: 
 ** very-nested: ...
-*/nested_example:"more-examples::nested-example",
+*/nested_example:"more-examples:nested-example",
 
 /**
 * Translations: 
@@ -102,7 +120,7 @@ export const LocaleKeys={
 /**
 * Translations: 
 ** nested: "Nested example!"
-*/very_nested:"more-examples::nested-example..very-nested",
+*/very_nested:"more-examples:nested-example.very-nested",
 
 /**
 * Translations: 
@@ -110,23 +128,5 @@ export const LocaleKeys={
 */_very_nested:{ 
   /**
  * @example "Nested example!"
- */nested:"more-examples::nested-example..very-nested..nested", }, }, },
-
-/**
-* Translations: 
-** description: "This text is wrote in English from the homepage dictionary"
-** more_examples: "More examples"
-*/home:"home",
-
-/**
-* Translations: 
-** description: "This text is wrote in English from the homepage dictionary"
-** more_examples: "More examples"
-*/_home:{ 
-  /**
- * @example "This text is wrote in English from the homepage dictionary"
- */description:"home::description",
-  /**
- * @example "More examples"
- */more_examples:"home::more_examples", },};
+ */nested:"more-examples:nested-example.very-nested.nested", }, }, },};
 // Developed by Sascha Happ.
