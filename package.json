@@ -13,10 +13,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc -p ./tsconfig.json",
-    "generate:example:one": "node . next-translate-localekeys --mode generate --rootDir ./examples/locales/en --outDir ./examples/generated",
-    "generate:example:two": "node . next-translate-localekeys --mode generate --rootDir ./examples/locales/en --outDir ./examples/generated --translations",
-    "generate:example:three": "node . next-translate-localekeys --mode generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript",
-    "generate:example:four": "node . next-translate-localekeys --mode generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript --translations"
+    "generate:example:one": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated",
+    "generate:example:two": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --translations",
+    "generate:example:three": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript",
+    "generate:example:four": "node ./dist/base/controller.js generate --rootDir ./examples/locales/en --outDir ./examples/generated --typescript --translations",
+    "compile:example:one": "node ./dist/base/controller.js compile --rootDir ./examples/compiled/after",
+    "compile:example:two": "node ./dist/base/controller.js compile --rootDir ./examples/compiled/after --typescript"
   },
   "keywords": [],
   "author": "Sascha Happ",

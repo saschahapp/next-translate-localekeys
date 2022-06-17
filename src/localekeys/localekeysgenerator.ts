@@ -92,9 +92,7 @@ export class LocaleKeysGenerator extends Generator {
       content += this.args.translations
         ? this.getTemplate("parentTypeDeclarationWithTranslations", {
             name: this.getValidLocaleKeyName(name),
-            translations: this.getLocaleKeyTranslationLayout(
-              this.getLocaleKeyTranslations(descendants!)
-            ),
+            translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
             descendantTypeDeclaration: this.getLocaleKeyDescendantsTypeDeclaration(descendants!),
           })
         : this.getTemplate("parentTypeDeclaration", {
@@ -119,9 +117,7 @@ export class LocaleKeysGenerator extends Generator {
           ? this.getTemplate("translationObjectWithTranslations", {
               value: name,
               key: this.getValidLocaleKeyName(name),
-              translations: this.getLocaleKeyTranslationLayout(
-                this.getLocaleKeyTranslations(descendants!)
-              ),
+              translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
               descendants: this.getLocaleKeyDescendantsTemplate(descendants),
             })
           : this.getTemplate("translationObject", {
@@ -216,9 +212,7 @@ export class LocaleKeysGenerator extends Generator {
       ? this.getTemplate("translationObjectWithTranslations", {
           key: this.getValidLocaleKeyName(name),
           value: ancestorChain + name,
-          translations: this.getLocaleKeyTranslationLayout(
-            this.getLocaleKeyTranslations(descendants!)
-          ),
+          translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
           descendants: this.getLocaleKeyDescendantsTemplate(descendants!),
         })
       : this.getTemplate("translationObject", {
@@ -237,9 +231,7 @@ export class LocaleKeysGenerator extends Generator {
     return this.args.translations
       ? this.getTemplate("parentTypeDeclarationWithTranslations", {
           name: this.getValidLocaleKeyName(name),
-          translations: this.getLocaleKeyTranslationLayout(
-            this.getLocaleKeyTranslations(descendants!)
-          ),
+          translations: this.getLocaleKeyTranslationLayout(this.getLocaleKeyTranslations(descendants!)),
           descendantTypeDeclaration: this.getLocaleKeyDescendantsTypeDeclaration(descendants!),
         })
       : this.getTemplate("parentTypeDeclaration", {

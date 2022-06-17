@@ -51,9 +51,7 @@ export class LocaleKeysCompiler {
     try {
       await this.processDirectory(this.args.rootDir);
     } catch (error) {
-      throw new LocaleKeysCompilerError(
-        error instanceof Error ? error.message : "Unknown Error occurred"
-      );
+      throw new LocaleKeysCompilerError(error instanceof Error ? error.message : "Unknown Error occurred");
     }
   }
 
@@ -112,11 +110,7 @@ export class LocaleKeysCompiler {
           ? ""
           : this.args.nsSeparator +
             keys
-              .map((key) =>
-                key.startsWith("_")
-                  ? key.replace(/_/, "").replace(/_/g, "-")
-                  : key.replace(/_/g, "-")
-              )
+              .map((key) => (key.startsWith("_") ? key.replace(/_/, "").replace(/_/g, "-") : key.replace(/_/g, "-")))
               .join(this.args.keySeparator)) +
         "'"
       );

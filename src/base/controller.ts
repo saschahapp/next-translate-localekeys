@@ -2,7 +2,6 @@
 
 import { program, Argument } from "commander";
 
-import { Maybe } from "./util";
 import { FileSystem, PendingJob, Collection } from "./filesystem";
 import { LocaleKeysCompiler } from "../localekeys/localekeyscompiler";
 import { LocaleKeysGenerator } from "../localekeys/localekeysgenerator";
@@ -21,16 +20,16 @@ enum Mode {
 }
 
 /**
- * @summary arguments which can or must be passed through command line
+ * @summary options which can or must be passed through command line
  */
 type BaseARGS = {
-  readonly outDir: string;
-  readonly errDir?: string;
   readonly rootDir: string;
+  readonly outDir?: string;
+  readonly errDir?: string;
+  readonly typescript: boolean;
   readonly nsSeparator: string;
   readonly keySeparator: string;
-  readonly typescript?: boolean;
-  readonly translations?: boolean;
+  readonly translations: boolean;
 };
 
 /**
@@ -40,7 +39,7 @@ class Controller {
   /**
    * @summary contains the wanted mode
    */
-  private mode: Maybe<Mode>;
+  private readonly mode: Mode;
 
   /**
    * @summary parsed command line arguments
@@ -58,7 +57,7 @@ class Controller {
    */
   constructor(argv: Collection) {
     this.fs = new FileSystem();
-    this.args = this.getARGS(argv);
+    [this.mode, this.args] = this.getARGS(argv);
   }
 
   /**
@@ -68,23 +67,21 @@ class Controller {
   public async exec(): PendingJob {
     const requiredARGS = {
       rootDir: this.fs.join(this.args.rootDir),
-      outDir: this.fs.join(this.args.outDir),
-      errDir: this.fs.join(this.args.errDir ?? this.args.outDir),
+      outDir: this.fs.join(this.args.outDir ?? this.args.rootDir),
+      errDir: this.fs.join(this.args.errDir ?? this.args.rootDir),
+      typescript: this.args.typescript,
       nsSeparator: this.args.nsSeparator,
       keySeparator: this.args.keySeparator,
-      typescript: this.args.typescript ?? false,
-      translations: this.args.translations ?? false,
+      translations: this.args.translations,
     };
 
     switch (this.mode) {
       case Mode.COMPILE:
         await new LocaleKeysCompiler(requiredARGS).compile();
         break;
-      case Mode.GENERATE:
+      default:
         await new LocaleKeysGenerator(requiredARGS).generate();
         break;
-      default:
-        throw new Error('Mode not found');
     }
   }
 
@@ -93,24 +90,23 @@ class Controller {
    * @param argv
    * @returns BaseARGS
    */
-  private getARGS(argv: Collection): BaseARGS {
-    return program
+  private getARGS(argv: Collection): [Mode, BaseARGS] {
+    const command = program
       .name("Next-translate LocaleKeys")
       .description("helps working with translation keys from the next translate library")
       .version("-v, --version", "current version")
-      .addArgument(new Argument("<mode>", "different modes").choices(Object.values(Mode)))
-      .action((mode) => {
-        this.mode = mode;
-      })
+      .helpOption("-h, --help", "displays all the options and arguments")
+      .addArgument(new Argument("mode", "current mode").choices(Object.values(Mode)).argRequired())
       .requiredOption("--rootDir <string>", "location of the source code")
-      .requiredOption("--outDir <string>", "place of the generated output")
-      .option("--errDir <string>", "where the error file should be placed in. Default: outDir.")
+      .option("--outDir <string>", "place of the generated output. Default: rootDir.")
+      .option("--errDir <string>", "location of error file. Default: rootDir.")
       .option("--nsSeparator <string>", "char to split namespace from key.", ":")
       .option("--keySeparator <string>", "change the separator that is used for nested keys.", ".")
-      .option("--typescript", "enables typescript")
-      .option("--translations", "enables translation comments.")
-      .parse(argv)
-      .opts();
+      .option("--typescript", "enables typescript", false)
+      .option("--translations", "enables translation comments.", false)
+      .parse(argv);
+
+    return [command.args[0] as Mode, command.opts()];
   }
 }
 

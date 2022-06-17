@@ -93,9 +93,7 @@ export abstract class Generator {
   protected getTemplate(templateKey: TemplateKey, variables?: ReadonlyDocument): string {
     return GeneratorTemplates[templateKey]
       .trimEnd()
-      .replace(/{{.*?}}/gm, (variable) =>
-        variables ? variables[variable.replace(/{|}|\s/g, "")] ?? "" : ""
-      );
+      .replace(/{{.*?}}/gm, (variable) => (variables ? variables[variable.replace(/{|}|\s/g, "")] ?? "" : ""));
   }
 
   /**
@@ -122,10 +120,7 @@ export abstract class Generator {
    * @returns PendingJob
    */
   protected async logError(error: unknown): PendingJob {
-    await this.fs.appendFile(
-      this.fs.join(this.args.errDir, this.errFile),
-      this.getErrorMessage(error)
-    );
+    await this.fs.appendFile(this.fs.join(this.args.errDir, this.errFile), this.getErrorMessage(error));
   }
 
   /**
