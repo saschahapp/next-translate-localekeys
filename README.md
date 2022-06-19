@@ -3,7 +3,7 @@ Intended for use in conjunction with [next-translate](https://github.com/vinissi
 Used for generating all possible keys for the useTranslation hook with type safety.
 
 ### How to install
-`npm install --save-dev next-translate-localekeys`
+`npm install --save-dev @saschahapp/next-translate-localekeys`
 
 ### How to run
 `npx next-translate-localekeys`

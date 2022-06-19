@@ -58,19 +58,4 @@ export class Util {
   public isObject(value: unknown): value is object {
     return typeof value === "object";
   }
-
-  /**
-   * @summary merges all the results of the generator functions together
-   * @param generators
-   * @returns string
-   */
-  public merge(...generators: ReadonlyArray<VoidCallback<string>>): string {
-    let content = "";
-
-    for (const generator of generators) {
-      content += generator();
-    }
-
-    return content;
-  }
 }
