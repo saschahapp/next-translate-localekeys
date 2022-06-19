@@ -27,6 +27,11 @@ export type PendingJob = Promise<void>;
 export type PendingJobs = Array<PendingJob>;
 
 /**
+ * @summary nested jobs which are pending
+ */
+export type NestedPendingJobs = ReadonlyArray<PendingJob | PendingJobs | NestedPendingJobs>;
+
+/**
  * @summary nested Json node
  */
 export type NestedDoc = { readonly [key: string]: NestedDoc | string };
@@ -87,8 +92,14 @@ export class FileSystem {
    * @param jobs
    * @returns PendingJob
    */
-  public async waitForAllJobs(...jobs: ReadonlyArray<PendingJob | PendingJobs>): PendingJob {
-    await Promise.all(jobs.flat());
+  public async waitForAllJobs(...nestedJobs: NestedPendingJobs): PendingJob {
+    for (const nestedJob of nestedJobs) {
+      if (Array.isArray(nestedJob)) {
+        await this.waitForAllJobs(...nestedJob);
+      } else {
+        await nestedJob;
+      }
+    }
   }
 
   /**
