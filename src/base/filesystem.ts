@@ -32,6 +32,7 @@ export type PendingJobs = Array<PendingJob>;
 export type NestedPendingJobs = ReadonlyArray<PendingJob | PendingJobs | NestedPendingJobs>;
 
 /**
+
  * @summary nested Json node
  */
 export type NestedDoc = { readonly [key: string]: NestedDoc | string };
